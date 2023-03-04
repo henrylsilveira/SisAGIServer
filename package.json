@@ -1,0 +1,35 @@
+{
+  "name": "siscauserver",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup src",
+    "start": "node dist/server.js"
+  },
+  "engines": {
+    "node": "18"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^9.3.0",
+    "@types/bcrypt": "^5.0.0",
+    "prisma": "^4.8.0",
+    "prisma-erd-generator": "^1.2.4",
+    "tsup": "^6.6.3",
+    "tsx": "^3.12.1",
+    "typescript": "^4.9.4"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.2.0",
+    "@fastify/jwt": "^6.5.0",
+    "@prisma/client": "^4.8.0",
+    "bcrypt": "^5.1.0",
+    "fastify": "^4.11.0",
+    "short-unique-id": "^4.4.4",
+    "zod": "^3.20.2"
+  }
+}

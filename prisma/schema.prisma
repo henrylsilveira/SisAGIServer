@@ -1,0 +1,222 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+generator erd {
+  provider = "prisma-erd-generator"
+  theme    = "dark"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Militar {
+  //Dados báscios
+  id            String  @id @default(uuid())
+  identidade    String  @unique
+  post_grad     String?
+  nome_completo String
+  nome_guerra   String
+  senha         String
+  companhia     String?
+  pelotao       String?
+  funcao_local  String  @default("comum")
+  status        String  @default("ativo")
+
+  // Dados complementares
+  cpf                     String?            @unique
+  nome_pai                String?
+  nome_mae                String?
+  naturalidade            String?
+  data_nascimento         DateTime?
+  data_praca              DateTime?
+  qmg_qmp                 String?
+  sexo                    String?
+  cidade                  String?
+  estado                  String?
+  bairro                  String?
+  nr_rua                  String?
+  complemento             String?
+  cep                     String?
+  telefone                String?
+  email                   String?
+  cargo_qcp               String?
+  tipo_sanguineo          String?
+  prec_cp                 String?
+  local_cumpre_expediente String?
+  motocarro               String?
+  hab_militar             String?
+  //Geolocalização
+  longitude               String?
+  latitude                String?
+  //Relacionamentos com outras tabelas
+  cautelas                Cautela[]
+  Session                 Session[]
+  CautelaArmamento        CautelaArmamento[]
+  ArmamentoMilitar        ArmamentoMilitar[]
+  Municao                 Municao[]
+  Combustivel             Combustivel[]
+  Funcao                  Funcao[]
+  Feedback                Feedback[]
+}
+
+model Material {
+  id         String  @id @default(cuid())
+  nome       String  @unique
+  condicoes  String?
+  quantidade Int?
+  codigo     String?
+
+  sub_unidade String?
+  dependencia String?
+  categoria   String?
+
+  cautelas Cautela[]
+}
+
+model Cautela {
+  id                      String    @id @default(uuid())
+  data_cautela            DateTime  @default(now())
+  observacao              String
+  sub_unidade             String
+  dependencia             String
+  quantidade              Int?      @default(1)
+  validado                Boolean
+  resp_cautela            String
+  status                  String    @default("ativo")
+  data_fechamento_cautela DateTime?
+
+  cautelouId String
+  materialId String
+
+  cautelou Militar  @relation(fields: [cautelouId], references: [id])
+  material Material @relation(fields: [materialId], references: [id])
+}
+
+model CautelaArmamento {
+  id                      String    @id @default(uuid())
+  data_cautela            DateTime  @default(now())
+  observacao              String?
+  companhia               String
+  quantidade              Int?      @default(1)
+  validado                Boolean
+  resp_cautela            String
+  status                  String    @default("ativo")
+  data_fechamento_cautela DateTime?
+
+  cautelouId  String
+  armamentoId String
+
+  cautelou  Militar   @relation(fields: [cautelouId], references: [id])
+  armamento Armamento @relation(fields: [armamentoId], references: [id])
+}
+
+model Armamento {
+  id            String  @id @default(cuid())
+  nome          String
+  nr_serie      String
+  tipo          String?
+  emprego       String?
+  condicoes     String?
+  companhia     String?
+  dependencia   String?
+  cabide        String?
+  statusCautela String  @default("disponivel")
+  status        String  @default("disponivel")
+
+  cautelaArmamento CautelaArmamento[]
+  ArmamentoMilitar ArmamentoMilitar[]
+  Manutencao       Manutencao[]
+}
+
+model Municao {
+  id                String    @id @default(cuid())
+  nr_pedido         String
+  municao_pedida    Int
+  municao_usada     Int?
+  municao_devolvida Int?
+  unidade           String
+  tipo_municao      String
+  data_instrucao    DateTime?
+  data_devolucao    DateTime?
+  instrucao         String?
+  companhia         String
+  status            String    @default("ativo")
+  militarId         String
+
+  militar Militar @relation(fields: [militarId], references: [id])
+}
+
+model Combustivel {
+  id                    String    @id @default(cuid())
+  nr_pedido             String
+  combustivel_pedido    Int
+  combustivel_usado     Int
+  combustivel_devolvido Int
+  unidade               String
+  companhia             String
+  tipo_combustivel      String
+  data_missao           DateTime?
+  data_devolucao        DateTime?
+  missao                String
+  status                String    @default("ativo")
+
+  militarId String
+
+  militar Militar @relation(fields: [militarId], references: [id])
+}
+
+model Manutencao {
+  id String @id @default(cuid())
+
+  tipoManutencao String
+  dataManutencao DateTime
+  armamentoId    String
+
+  armamento Armamento @relation(fields: [armamentoId], references: [id])
+}
+
+model ArmamentoMilitar {
+  id String @id @default(cuid())
+
+  armamentoId String
+  militarId   String
+
+  armamento Armamento @relation(fields: [armamentoId], references: [id])
+  militar   Militar   @relation(fields: [militarId], references: [id])
+}
+
+model Funcao {
+  id           String   @id @default(cuid())
+  funcao       String
+  data_inicio  DateTime
+  data_termino DateTime
+
+  created_at DateTime @default(now())
+  status     String   @default("ativo")
+
+  militarId String
+  militar   Militar @relation(fields: [militarId], references: [id])
+
+  @@unique([funcao, militarId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  militarId    String
+  access       DateTime @default(now())
+  expires      DateTime
+  ipAccess     String?
+  militar      Militar  @relation(fields: [militarId], references: [id], onDelete: Cascade)
+}
+
+model Feedback {
+  id           String   @id @default(cuid())
+  dateFeedback DateTime @default(now())
+  informacao   String
+  militarId    String
+  militar      Militar  @relation(fields: [militarId], references: [id], onDelete: Cascade)
+}
