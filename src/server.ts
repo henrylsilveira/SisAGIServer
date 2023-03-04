@@ -19,7 +19,7 @@ async function bootstrap() {
 
     await fastify.register(cors, {
         //COLOCAR O ENDEREÇO DO FRONT END PARA DIZENDO QUAL APP PODE FAZER REQUISIÇÃO ['http://siscau.vercel.app']
-        origin: process.env.NODE_ENV === "development" ? ['https://sisagi.vercel.app/'] : ['http://localhost:3000/']
+        origin: ['https://sisagi.vercel.app'] //['http://localhost:3000'],
     })
 
     //Em produção troca o secret para uma variavel ambiente (criar um token)
