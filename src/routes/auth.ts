@@ -8,7 +8,7 @@ import { convertDate } from "../utils/scripts";
 export async function authRoutes(fastify: FastifyInstance) {
   fastify.post("/auth", async (request, reply) => {
     const { identidade, senha, ip } = request.body as Militar;
-    console.log(ip)
+
     const result = await prisma.militar.findUnique({
       where: {
         identidade,
