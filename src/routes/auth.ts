@@ -42,7 +42,7 @@ export async function authRoutes(fastify: FastifyInstance) {
         }
       })
 
-      return { result: { ...result, token}};
+      return { ...result, token};
     } else {
       return false;
     }
@@ -110,7 +110,7 @@ export async function authRoutes(fastify: FastifyInstance) {
           expiresIn: "7 days",
         }
       );
-      return reply.send({result, token});
+      return reply.send({ ...result, token });
     }
   );
 }
