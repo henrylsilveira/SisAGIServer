@@ -1,4 +1,5 @@
 /node_modules
 dist
-dev.db
+/prisma/seed.ts
+/prisma/dev.db
 .env.local
