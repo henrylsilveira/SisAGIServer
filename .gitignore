@@ -3,3 +3,4 @@ dist
 /prisma/seed.ts
 /prisma/dev.db
 .env.local
+.env

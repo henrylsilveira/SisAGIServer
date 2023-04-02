@@ -1,48 +1,49 @@
 import Fastify from "fastify";
-import cors from '@fastify/cors'
+import cors from "@fastify/cors";
 import { authRoutes } from "./routes/auth";
 import { militarRoutes } from "./routes/militar";
 import { cautelaRoutes } from "./routes/cautela";
 import { materialRoutes } from "./routes/material";
-import jwt from '@fastify/jwt'
+import jwt from "@fastify/jwt";
 import { armamentoRoutes } from "./routes/armamento";
 import { cautelaArmamentoRoutes } from "./routes/cautelaArmamento";
 import { furrielRoutes } from "./routes/furriel";
 import { funcaoRoutes } from "./routes/funcao";
 
-
-
 async function bootstrap() {
-    const fastify = Fastify({
-        logger: true
-    })
+  const fastify = Fastify({
+    logger: true,
+  });
 
-    await fastify.register(cors, {
-        //COLOCAR O ENDEREÇO DO FRONT END PARA DIZENDO QUAL APP PODE FAZER REQUISIÇÃO ['http://siscau.vercel.app']
-        // origin: ['http://localhost:3000','https://sisagi.vercel.app']// ['https://sisagi.vercel.app'] //,
-    })
+  await fastify.register(cors, {
+    //COLOCAR O ENDEREÇO DO FRONT END PARA DIZENDO QUAL APP PODE FAZER REQUISIÇÃO ['http://siscau.vercel.app']
+    // origin: 'http://localhost:3000'// ['https://sisagi.vercel.app'] //,
+  });
 
-    //Em produção troca o secret para uma variavel ambiente (criar um token)
-    await fastify.register(jwt, {
-        secret: `${process.env.SECRET_KEY_JWT}`
-    })
-    
-    //FURRIEL
-    await fastify.register(furrielRoutes)
-    //MILITARES
-    await fastify.register(militarRoutes)
-     //FUNÇÕES
-     await fastify.register(funcaoRoutes)
-    //MATERIAL
-    await fastify.register(cautelaRoutes)
-    await fastify.register(materialRoutes)
-    //ARMAMENTO
-    await fastify.register(cautelaArmamentoRoutes)
-    await fastify.register(armamentoRoutes)
-    //AUTENTICAÇÃO
-    await fastify.register(authRoutes)
+  //Em produção troca o secret para uma variavel ambiente (criar um token)
+  await fastify.register(jwt, {
+    secret: `${process.env.SECRET_KEY_JWT}`,
+  });
 
-    await fastify.listen({ port: process.env.PORT ? Number(process.env.PORT) : 3333, host: '0.0.0.0' })
+  //FURRIEL
+  await fastify.register(furrielRoutes);
+  //MILITARES
+  await fastify.register(militarRoutes);
+  //FUNÇÕES
+  await fastify.register(funcaoRoutes);
+  //MATERIAL
+  await fastify.register(cautelaRoutes);
+  await fastify.register(materialRoutes);
+  //ARMAMENTO
+  await fastify.register(cautelaArmamentoRoutes);
+  await fastify.register(armamentoRoutes);
+  //AUTENTICAÇÃO
+  await fastify.register(authRoutes);
+
+  await fastify.listen({
+    port: process.env.PORT ? Number(process.env.PORT) : 3333,
+    // host: "0.0.0.0",
+  });
 }
 
-bootstrap()
+bootstrap();

@@ -2,13 +2,13 @@ import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
 import { Militar } from "./militar";
 import { validatePassword } from "../plugins/validatePassword";
-import { authenticate } from "../plugins/authenticate";
 import { convertDate } from "../utils/scripts";
 
 export async function authRoutes(fastify: FastifyInstance) {
+
   fastify.post("/auth", async (request, reply) => {
     const { identidade, senha, ip } = request.body as Militar;
-
+    
     const result = await prisma.militar.findUnique({
       where: {
         identidade,
