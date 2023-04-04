@@ -4,3 +4,4 @@ dist
 /prisma/dev.db
 .env.local
 .env
+/src/public/imgAvatar

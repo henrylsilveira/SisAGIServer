@@ -9,11 +9,21 @@ import { armamentoRoutes } from "./routes/armamento";
 import { cautelaArmamentoRoutes } from "./routes/cautelaArmamento";
 import { furrielRoutes } from "./routes/furriel";
 import { funcaoRoutes } from "./routes/funcao";
+import multer from 'fastify-multer'
+import { avatarMilitar } from "./routes/avatarMilitar";
+import fastifyStatic from '@fastify/static'
+import path from "path";
 
 async function bootstrap() {
   const fastify = Fastify({
     logger: true,
   });
+
+  await fastify.register(fastifyStatic, {
+    root: path.join(__dirname, 'public' , 'imgAvatar'),
+  })
+
+  await fastify.register(multer.contentParser)
 
   await fastify.register(cors, {
     //COLOCAR O ENDEREÇO DO FRONT END PARA DIZENDO QUAL APP PODE FAZER REQUISIÇÃO ['http://siscau.vercel.app']
@@ -25,6 +35,8 @@ async function bootstrap() {
     secret: `${process.env.SECRET_KEY_JWT}`,
   });
 
+  //AVARTARMILITAR
+  await fastify.register(avatarMilitar);
   //FURRIEL
   await fastify.register(furrielRoutes);
   //MILITARES

@@ -19,6 +19,7 @@ model Militar {
   post_grad     String?
   nome_completo String
   nome_guerra   String
+  avatar_url    String?
   senha         String
   companhia     String?
   pelotao       String?
