@@ -51,15 +51,6 @@ export interface Militar {
 
 export type MilitarArray = Militar[];
 
-export interface Feedback {
-  id: string;
-  dateFeedback: Date;
-  informacao: string;
-  militarId: string;
-}
-
-export type FeedbackArray = Feedback[];
-
 export interface Material {
   id: string;
   nome: string;
@@ -208,3 +199,25 @@ export type Session = {
 }
 
 export type SessionArray = Session[]; 
+
+export interface Feedback {
+  id: string;
+  dateFeedback: Date;
+  imageFeedback_url: string;
+  informacao: string;
+  militarId: string;
+}
+
+export type FeedbackArray = Feedback[]; 
+
+export interface Missao {
+  id?: string;
+  created_at?: Date;
+  data_finalizacao: Date;
+  descricao: string;
+  situacao?: string;
+  militar_origem: string;
+  militar_destino: string;
+}
+
+export type MissaoArray = Missao[]; 

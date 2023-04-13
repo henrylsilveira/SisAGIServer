@@ -13,54 +13,61 @@ datasource db {
 }
 
 model Militar {
-  //Dados báscios
-  id            String  @id @default(uuid())
-  identidade    String  @unique
-  post_grad     String?
-  nome_completo String
-  nome_guerra   String
-  avatar_url    String?
-  senha         String
-  companhia     String?
-  pelotao       String?
-  funcao_local  String  @default("comum")
-  status        String  @default("ativo")
+  //Dados básicos
+  id                      String  @id @default(uuid())
+  identidade              String  @unique
+  post_grad               String?
+  nome_completo           String
+  nome_guerra             String
+  avatar_url              String?
+  senha                   String
+  status                  String  @default("ativo")
+  situacao_med            String? @default("apto")
+  //Dados de local de trabalho
+  companhia               String?
+  pelotao                 String?
+  fracao                  String?
+  funcao_fracao           String?
+  funcao_local            String  @default("comum")
+  local_cumpre_expediente String?
 
   // Dados complementares
-  cpf                     String?            @unique
-  nome_pai                String?
-  nome_mae                String?
-  naturalidade            String?
-  data_nascimento         DateTime?
-  data_praca              DateTime?
-  qmg_qmp                 String?
-  sexo                    String?
-  cidade                  String?
-  estado                  String?
-  bairro                  String?
-  nr_rua                  String?
-  complemento             String?
-  cep                     String?
-  telefone                String?
-  email                   String?
-  cargo_qcp               String?
-  tipo_sanguineo          String?
-  prec_cp                 String?
-  local_cumpre_expediente String?
-  motocarro               String?
-  hab_militar             String?
+  cpf             String?   @unique
+  nome_pai        String?
+  nome_mae        String?
+  naturalidade    String?
+  data_nascimento DateTime?
+  data_praca      DateTime?
+  qmg_qmp         String?
+  sexo            String?
+  cidade          String?
+  estado          String?
+  bairro          String?
+  nr_rua          String?
+  complemento     String?
+  cep             String?
+  telefone        String?
+  email           String?
+  cargo_qcp       String?
+  tipo_sanguineo  String?
+  prec_cp         String?
+  motocarro       String?
+  hab_militar     String?
+  indigena        String?   @default("não")
   //Geolocalização
-  longitude               String?
-  latitude                String?
+  longitude       String?
+  latitude        String?
+
   //Relacionamentos com outras tabelas
-  cautelas                Cautela[]
-  Session                 Session[]
-  CautelaArmamento        CautelaArmamento[]
-  ArmamentoMilitar        ArmamentoMilitar[]
-  Municao                 Municao[]
-  Combustivel             Combustivel[]
-  Funcao                  Funcao[]
-  Feedback                Feedback[]
+  cautelas         Cautela[]
+  Session          Session[]
+  CautelaArmamento CautelaArmamento[]
+  ArmamentoMilitar ArmamentoMilitar[]
+  Municao          Municao[]
+  Combustivel      Combustivel[]
+  Funcao           Funcao[]
+  Feedback         Feedback[]
+  Missao           Missao[]
 }
 
 model Material {
@@ -215,9 +222,21 @@ model Session {
 }
 
 model Feedback {
-  id           String   @id @default(cuid())
-  dateFeedback DateTime @default(now())
-  informacao   String
-  militarId    String
-  militar      Militar  @relation(fields: [militarId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  dateFeedback      DateTime @default(now())
+  imageFeedback_url String?
+  informacao        String
+  militarId         String
+  militar           Militar  @relation(fields: [militarId], references: [id], onDelete: Cascade)
+}
+
+model Missao {
+  id               String   @id @default(cuid())
+  created_at       DateTime @default(now())
+  descricao        String
+  data_finalizacao DateTime
+  situacao         String   @default("ativa")
+  militar_origem   String
+  militar_destino  String
+  militar          Militar  @relation(fields: [militar_origem], references: [id], onDelete: Cascade)
 }

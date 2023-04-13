@@ -27,12 +27,12 @@ export async function authRoutes(fastify: FastifyInstance) {
       },
       {
         sub: result?.id,
-        expiresIn: "7 days",
+        expiresIn: "1 days",
       }
     );
 
     if (token && result && (await validatePassword(result!.id, senha))) {
-      const date = Date.now() + 1000*60*60*24*7;
+      const date = Date.now() + 1000*60*60*24*1;
       await prisma.session.create({
         data: {
           sessionToken: token,

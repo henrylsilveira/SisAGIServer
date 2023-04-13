@@ -13,6 +13,7 @@ import multer from 'fastify-multer'
 import { avatarMilitar } from "./routes/avatarMilitar";
 import fastifyStatic from '@fastify/static'
 import path from "path";
+import { missaoRoutes } from "./routes/missao";
 
 async function bootstrap() {
   const fastify = Fastify({
@@ -35,6 +36,8 @@ async function bootstrap() {
     secret: `${process.env.SECRET_KEY_JWT}`,
   });
 
+  //MISSÕES
+  await fastify.register(missaoRoutes);
   //AVARTARMILITAR
   await fastify.register(avatarMilitar);
   //FURRIEL
