@@ -238,5 +238,6 @@ model Missao {
   situacao         String   @default("ativa")
   militar_origem   String
   militar_destino  String
-  militar          Militar  @relation(fields: [militar_origem], references: [id], onDelete: Cascade)
+
+  militar Militar @relation(fields: [militar_destino], references: [id], onDelete: Cascade)
 }

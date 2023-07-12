@@ -34,10 +34,12 @@ fastify.post('/missao/create', async (request, reply) => {
 
   fastify.get('/missao/:id', async (request, reply) => {
     const { id } = request.params as any
-    console.log(id)
     const result = await prisma.missao.findMany({
       where: {
-        militar_destino: id
+        OR: [
+          {militar_destino: id},
+          {militar_origem: id}
+        ]
       },
       include: {
         militar: true,
