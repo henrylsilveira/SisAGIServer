@@ -56,7 +56,7 @@ async function bootstrap() {
   await fastify.register(authRoutes);
 
   await fastify.listen({
-    port: process.env.PORT ? Number(process.env.PORT) : 3333,
+    port: 3333,
     // host: "0.0.0.0",
   }).then(() => {
     console.log(`🚀 HTTP server running on ${process.env.PORT ? Number(process.env.PORT) : 3333}`)
