@@ -28,7 +28,7 @@ async function bootstrap() {
 
   await fastify.register(cors, {
     //COLOCAR O ENDEREÇO DO FRONT END PARA DIZENDO QUAL APP PODE FAZER REQUISIÇÃO ['http://siscau.vercel.app']
-    origin: 'https://sisagifront.onrender.com'// ['https://sisagi.vercel.app'] //,
+    origin: true// ['https://sisagi.vercel.app'] //,
   });
 
   //Em produção troca o secret para uma variavel ambiente (criar um token)
@@ -58,6 +58,8 @@ async function bootstrap() {
   await fastify.listen({
     port: process.env.PORT ? Number(process.env.PORT) : 3333,
     // host: "0.0.0.0",
+  }).then(() => {
+    console.log(`🚀 HTTP server running on ${process.env.PORT ? Number(process.env.PORT) : 3333}`)
   });
 }
 
