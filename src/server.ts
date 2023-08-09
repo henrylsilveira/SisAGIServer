@@ -28,7 +28,7 @@ async function bootstrap() {
 
   await fastify.register(cors, {
     //COLOCAR O ENDEREÇO DO FRONT END PARA DIZENDO QUAL APP PODE FAZER REQUISIÇÃO ['http://siscau.vercel.app']
-    origin: true// ['https://sisagi.vercel.app'] //,
+    origin: ['https://sisagi.vercel.app'],
   });
 
   //Em produção troca o secret para uma variavel ambiente (criar um token)
