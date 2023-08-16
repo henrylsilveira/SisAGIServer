@@ -8,44 +8,53 @@ export async function authRoutes(fastify: FastifyInstance) {
 
   fastify.post("/auth", async (request, reply) => {
     const { identidade, senha, ip } = request.body as Militar;
-    
-    const result = await prisma.militar.findUnique({
-      where: {
-        identidade,
-      },
-    });
 
-    if (!result) {
-      return reply.status(404).send({
-        message: "Usuário não cadastrado.",
+ 
+      const result = await prisma.militar.findUnique({
+        where: {
+          identidade,
+        },
       });
-    }
-
-    const token = fastify.jwt.sign(
-      {
-        ...result
-      },
-      {
-        sub: result?.id,
-        expiresIn: "1 days",
+  
+      if (!result) {
+        return reply.status(500).send({
+          message: "Usuário não cadastrado.",
+        });
       }
-    );
-
-    if (token && result && (await validatePassword(result!.id, senha))) {
-      const date = Date.now() + 1000*60*60*24*1;
-      await prisma.session.create({
-        data: {
-          sessionToken: token,
-          militarId: result?.id,
-          ipAccess: ip ? String(ip) : "sem ip",
-          expires: new Date(date),
+  
+      const passwordValidate = await validatePassword(result.id, senha)
+  
+      if (!passwordValidate) {
+        return reply.status(300).send({
+          message: "Senha incorreta.",
+        });
+      }
+  
+  
+      const token = fastify.jwt.sign(
+        {
+          ...result
+        },
+        {
+          sub: result?.id,
+          expiresIn: "1 days",
         }
-      })
+      );
+  
+      if (token && result) {
+        const date = Date.now() + 1000*60*60*24*1;
+        await prisma.session.create({
+          data: {
+            sessionToken: token,
+            militarId: result?.id,
+            ipAccess: ip ? String(ip) : "sem ip",
+            expires: new Date(date),
+          }
+        })
+      } 
 
       return { ...result, token};
-    } else {
-      return false;
-    }
+    
   });
 
   fastify.post("/verifyToken", async (request ,reply) => {
