@@ -5,7 +5,6 @@ import { Missao } from "../@types/types";
 export async function missaoRoutes(fastify: FastifyInstance) {
 fastify.post('/missao/create', async (request, reply) => {
     const { data_finalizacao, descricao, militar_destino, militar_origem } = request.body as Missao
-    console.log(request.body as Missao)
 
     try {
       const result = await prisma.missao.create({

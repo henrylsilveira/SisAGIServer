@@ -15,7 +15,7 @@ export async function authRoutes(fastify: FastifyInstance) {
           identidade,
         },
       });
-  
+      
       if (!result) {
         return reply.status(500).send({
           message: "Usuário não cadastrado.",

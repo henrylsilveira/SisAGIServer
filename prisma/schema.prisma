@@ -51,8 +51,8 @@ model Militar {
   cargo_qcp       String?
   tipo_sanguineo  String?
   prec_cp         String?
-  motocarro       String?
-  hab_militar     String?
+  motocarro       String?   @default("não")
+  hab_militar     String?   @default("não")
   indigena        String?   @default("não")
   //Geolocalização
   longitude       String?

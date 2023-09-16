@@ -5,3 +5,6 @@ dist
 .env.local
 .env
 /src/public/imgAvatar
+
+.gcloudignore
+app.yaml
