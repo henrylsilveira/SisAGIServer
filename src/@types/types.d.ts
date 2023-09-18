@@ -49,6 +49,35 @@ export interface Militar {
   _count?: Object;
 }
 
+export interface Civil {
+    id: string;
+    foto: string;
+    fotoDoc: string;
+    nomeCompleto: string;
+    identidade?: string;
+    cpf?: string;
+    nomePai?: string;
+    nomeMae?: string;
+    profissao?: string;
+    Dbq: DbqArray;
+}
+
+export type CivilArray = Civil[];
+
+export interface Dbq {
+  id: string;
+  fotoDbq: string;
+  fotoDocDbq: string;
+  origem?: string;
+  destino?: string;
+  motivo?: string;
+  observacao?: string;
+  civilId?: string;
+  civil: Civil
+}
+
+export type DbqArray = Dbq[];
+
 export type MilitarArray = Militar[];
 
 export interface Material {

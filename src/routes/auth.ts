@@ -8,7 +8,6 @@ export async function authRoutes(fastify: FastifyInstance) {
 
   fastify.post("/auth", async (request, reply) => {
     const { identidade, senha, ip } = request.body as Militar;
-
  
       const result = await prisma.militar.findUnique({
         where: {
@@ -25,7 +24,7 @@ export async function authRoutes(fastify: FastifyInstance) {
       const passwordValidate = await validatePassword(result.id, senha)
   
       if (!passwordValidate) {
-        return reply.status(300).send({
+        return reply.status(500).send({
           message: "Senha incorreta.",
         });
       }

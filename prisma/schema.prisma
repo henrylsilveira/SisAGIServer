@@ -68,6 +68,7 @@ model Militar {
   Funcao           Funcao[]
   Feedback         Feedback[]
   Missao           Missao[]
+  Dbq              Dbq[]
 }
 
 model Material {
@@ -240,4 +241,34 @@ model Missao {
   militar_destino  String
 
   militar Militar @relation(fields: [militar_destino], references: [id], onDelete: Cascade)
+}
+
+model Civil {
+  id           String   @id @default(cuid())
+  foto         String?
+  fotoDoc      String?
+  nomeCompleto String
+  identidade   String?  @unique
+  cpf          String?  @unique
+  nomePai      String?
+  nomeMae      String?
+  profissao    String?
+  created_at   DateTime @default(now())
+  Dbq          Dbq[]
+}
+
+model Dbq {
+  id         String   @id @default(cuid())
+  fotoDbq    String?
+  fotoDocDbq String?
+  origem     String?
+  destino    String?
+  motivo     String?
+  observacao String?
+  created_at DateTime @default(now())
+  civilId    String
+  militarId  String
+
+  civil      Civil   @relation(fields: [civilId], references: [id], onDelete: Cascade)
+  militarDbq Militar @relation(fields: [militarId], references: [id], onDelete: Cascade)
 }

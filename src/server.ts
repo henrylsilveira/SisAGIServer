@@ -14,6 +14,7 @@ import { avatarMilitar } from "./routes/avatarMilitar";
 import fastifyStatic from '@fastify/static'
 import path from "path";
 import { missaoRoutes } from "./routes/missao";
+import { civilRoutes } from "./routes/civil";
 
 async function bootstrap() {
   
@@ -45,6 +46,8 @@ async function bootstrap() {
   await fastify.register(furrielRoutes);
   //MILITARES
   await fastify.register(militarRoutes);
+  //CIVIL
+  await fastify.register(civilRoutes);
   //FUNÇÕES
   await fastify.register(funcaoRoutes);
   //MATERIAL

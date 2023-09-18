@@ -43,7 +43,6 @@ export const multerConfig = {
       cb(null, path.resolve(__dirname,"..", "public", "imgAvatar"));
     },
     filename: (req, file: any, cb) => {
-      console.log(file)
       crypto.randomBytes(16, (err, hash) => {
         if (err) cb(err);
 
