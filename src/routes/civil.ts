@@ -4,12 +4,56 @@ import multer from "fastify-multer";
 import { multerConfig } from "../config/multer";
 import { Civil } from "../@types/types";
 import { Dbq } from "@prisma/client";
+import { convertDateInputToISODate } from "../utils/scripts";
 
 interface RequestProps extends FastifyRequest {
   file?: any
 }
 
 export async function civilRoutes(fastify: FastifyInstance) {
+  fastify.post("/civil/create", async (request: RequestProps, reply) => {
+    const {
+      nomeCompleto,
+      identidade,
+      dataNascimento,
+      cpf,
+      nomePai,
+      nomeMae,
+      profissao,
+    } = request.body as Civil
+
+    const result = await prisma.civil.findMany({
+      where: {
+        OR: [
+          { cpf },
+          { identidade },
+          { nomeCompleto: nomeCompleto.toLowerCase() }
+        ]
+      }
+    });
+
+    if (!result[0]) {
+      try {
+        const civil = await prisma.civil.create({
+          data: {
+            nomeCompleto: nomeCompleto.toLowerCase(),
+            identidade,
+            dataNascimento: convertDateInputToISODate(dataNascimento),
+            cpf,
+            nomeMae,
+            nomePai,
+            profissao
+          }
+        })
+
+        return reply.status(201).send({civil})
+      } catch (error) {
+        return reply.status(500).send({message: "Erro ao cadastrar o civil."})
+      }
+    } else {
+      return reply.status(500).send({message: "Civil já cadastrado"})
+    }
+  })
   fastify.get("/civil", async (request, reply) => {
     try {
       const result = await prisma.civil.findMany();
@@ -66,6 +110,7 @@ export async function civilRoutes(fastify: FastifyInstance) {
       identidade,
       cpf,
       nomePai,
+      dataNascimento,
       nomeMae,
       origem,
       destino,
@@ -90,6 +135,7 @@ export async function civilRoutes(fastify: FastifyInstance) {
         const civil = await prisma.civil.create({
           data: {
             nomeCompleto: nomeCompleto.toLowerCase(),
+            dataNascimento: convertDateInputToISODate(dataNascimento),
             identidade,
             cpf,
             nomeMae,

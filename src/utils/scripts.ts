@@ -10,8 +10,8 @@ export function generateNowISOTime() {
 }
 
 export function convertDateInputToISODate(iso: string) {
-    const d = new Date(iso)
-    return d.toISOString()
+    let isoDate = new Date(iso).toISOString();
+  return isoDate;
 }
 
 export function convertISODateToInputValue(iso: String | Date){

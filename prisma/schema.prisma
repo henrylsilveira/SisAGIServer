@@ -244,17 +244,18 @@ model Missao {
 }
 
 model Civil {
-  id           String   @id @default(cuid())
-  foto         String?
-  fotoDoc      String?
-  nomeCompleto String
-  identidade   String?  @unique
-  cpf          String?  @unique
-  nomePai      String?
-  nomeMae      String?
-  profissao    String?
-  created_at   DateTime @default(now())
-  Dbq          Dbq[]
+  id             String    @id @default(cuid())
+  foto           String?
+  fotoDoc        String?
+  nomeCompleto   String
+  identidade     String?   @unique
+  cpf            String?   @unique
+  nomePai        String?
+  nomeMae        String?
+  profissao      String?
+  dataNascimento DateTime?
+  created_at     DateTime  @default(now())
+  Dbq            Dbq[]
 }
 
 model Dbq {
