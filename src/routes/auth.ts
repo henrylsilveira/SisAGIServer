@@ -36,12 +36,11 @@ export async function authRoutes(fastify: FastifyInstance) {
         },
         {
           sub: result?.id,
-          expiresIn: "1 days",
         }
       );
   
       if (token && result) {
-        const date = Date.now() + 1000*60*60*24*1;
+        const date = Date.now() + 1000*60*60*24*30;
         await prisma.session.create({
           data: {
             sessionToken: token,
@@ -50,10 +49,10 @@ export async function authRoutes(fastify: FastifyInstance) {
             expires: new Date(date),
           }
         })
+        
       } 
 
-      return { ...result, token};
-    
+    return { ...result, token};
   });
 
   fastify.post("/verifyToken", async (request ,reply) => {
