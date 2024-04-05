@@ -69,6 +69,25 @@ model Militar {
   Feedback         Feedback[]
   Missao           Missao[]
   Dbq              Dbq[]
+  PedidoViatura    PedidoViatura[]
+  MilitarServico   ControleGuarda[]   @relation("militarServico")
+  Militar          ControleGuarda[]   @relation("militar")
+}
+
+model Civil {
+  id             String           @id @default(cuid())
+  foto           String?
+  fotoDoc        String?
+  nomeCompleto   String
+  identidade     String?          @unique
+  cpf            String?          @unique
+  nomePai        String?
+  nomeMae        String?
+  profissao      String?
+  dataNascimento DateTime?
+  created_at     DateTime         @default(now())
+  Dbq            Dbq[]
+  ControleGuarda ControleGuarda[] @relation("civil")
 }
 
 model Material {
@@ -243,19 +262,21 @@ model Missao {
   militar Militar @relation(fields: [militar_destino], references: [id], onDelete: Cascade)
 }
 
-model Civil {
-  id             String    @id @default(cuid())
-  foto           String?
-  fotoDoc        String?
-  nomeCompleto   String
-  identidade     String?   @unique
-  cpf            String?   @unique
-  nomePai        String?
-  nomeMae        String?
-  profissao      String?
-  dataNascimento DateTime?
-  created_at     DateTime  @default(now())
-  Dbq            Dbq[]
+model ControleGuarda {
+  id      String    @id @default(cuid())
+  entrada DateTime?
+  saida   DateTime?
+  destino String?
+
+  status String? @default("ativo")
+
+  militarServicoId String
+  militarId        String?
+  civilId          String?
+
+  militarServico Militar  @relation("militarServico", fields: [militarServicoId], references: [id], onDelete: Cascade)
+  militar        Militar? @relation("militar", fields: [militarId], references: [id], onDelete: Cascade)
+  civil          Civil?   @relation("civil", fields: [civilId], references: [id], onDelete: Cascade)
 }
 
 model Dbq {
@@ -272,4 +293,51 @@ model Dbq {
 
   civil      Civil   @relation(fields: [civilId], references: [id], onDelete: Cascade)
   militarDbq Militar @relation(fields: [militarId], references: [id], onDelete: Cascade)
+}
+
+model Viatura {
+  id             String @id @default(cuid())
+  eb             String @unique
+  tipo           String
+  tipoTransporte String
+  situacao       String @default("disponivel")
+
+  CautelaViatura CautelaViatura[]
+}
+
+model PedidoViatura {
+  id            String   @id @default(uuid())
+  created_at    DateTime @default(now())
+  dataDesejada  DateTime
+  missao        String
+  intinerario   String
+  chefeViatura  String
+  motorista     String?
+  dataDevolucao DateTime
+  apresentar    String
+  observacao    String   @default("")
+  status        String   @default("aguardando")
+  companhia     String   @default("")
+
+  militarIdPedido String @default("")
+
+  militar        Militar          @relation(fields: [militarIdPedido], references: [id], onDelete: Cascade)
+  CautelaViatura CautelaViatura[]
+}
+
+model CautelaViatura {
+  id          String   @id @default(cuid())
+  dataCautela DateTime
+  dataEntrega DateTime
+  motorista   String
+
+  observacao String @default("")
+
+  status String @default("pendente")
+
+  viaturaId       String
+  pedidoViaturaId String
+
+  viatura Viatura       @relation(fields: [viaturaId], references: [id], onDelete: Cascade)
+  pedido  PedidoViatura @relation(fields: [pedidoViaturaId], references: [id], onDelete: Cascade)
 }

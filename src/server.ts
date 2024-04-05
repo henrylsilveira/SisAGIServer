@@ -15,6 +15,8 @@ import fastifyStatic from '@fastify/static'
 import path from "path";
 import { missaoRoutes } from "./routes/missao";
 import { civilRoutes } from "./routes/civil";
+import { pmtRoutes } from "./routes/pmt";
+import { cmtGda } from "./routes/cmtGda";
 
 async function bootstrap() {
   
@@ -37,7 +39,9 @@ async function bootstrap() {
   await fastify.register(jwt, {
     secret: `${process.env.SECRET_KEY_JWT}`,
   });
-
+  
+  //PMT
+  await fastify.register(pmtRoutes)
   //MISSÕES
   await fastify.register(missaoRoutes);
   //AVARTARMILITAR
@@ -58,7 +62,9 @@ async function bootstrap() {
   await fastify.register(armamentoRoutes);
   //AUTENTICAÇÃO
   await fastify.register(authRoutes);
-
+  //CMT GDA
+  await fastify.register(cmtGda);
+  
   await fastify.listen({
     port: process.env.PORT ? Number(process.env.PORT) : 3333,
     // host: '0.0.0.0'

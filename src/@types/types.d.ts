@@ -12,26 +12,26 @@ export interface Militar {
   funcao_local?: string;
   status?: 'ativo' | 'encostado' | 'baixado' | 'adido' | 'incapaz' | 'inativo';
   //DADOS COMPLEMENTARES
-  cpf?: string; 
+  cpf?: string;
   nome_pai?: string;
   nome_mae?: string;
   naturalidade?: string;
-  data_nascimento?: Date;	
-  data_praca?: Date;	
-  qmg_qmp?: string;	
+  data_nascimento?: Date;
+  data_praca?: Date;
+  qmg_qmp?: string;
   sexo?: string;
   cidade?: string;
   estado?: string;
   bairro?: string;
-  nr_rua?: string;	
+  nr_rua?: string;
   complemento?: string;
   cep?: string;
   telefone?: string;
   email?: string;
-  cargo_qcp?: string;	
+  cargo_qcp?: string;
   tipo_sanguineo?: string;
   prec_cp?: string;
-  local_cumpre_expediente?: string;	
+  local_cumpre_expediente?: string;
   motocarro?: string;
   hab_militar?: string;
   //GEOLOCALIZAÇÃO
@@ -50,17 +50,17 @@ export interface Militar {
 }
 
 export interface Civil {
-    id: string;
-    foto: string;
-    fotoDoc: string;
-    nomeCompleto: string;
-    dataNascimento: string;
-    identidade?: string;
-    cpf?: string;
-    nomePai?: string;
-    nomeMae?: string;
-    profissao?: string;
-    Dbq: DbqArray;
+  id: string;
+  foto: string;
+  fotoDoc: string;
+  nomeCompleto: string;
+  dataNascimento: string;
+  identidade?: string;
+  cpf?: string;
+  nomePai?: string;
+  nomeMae?: string;
+  profissao?: string;
+  Dbq: DbqArray;
 }
 
 export type CivilArray = Civil[];
@@ -212,7 +212,7 @@ export type FuncaoMilitar = {
   id: string;
   funcao: 'sgte' | 'super admin' | 'cmt cia' | 'enc mat' | 'armeiro' | 'cmt pel' | 'cmt gda' | 'furriel' | 'comum';
   created_at: Date;
-  data_inicio:  Date;
+  data_inicio: Date;
   data_termino: Date;
   status: 'ativo' | 'inativo'
   militarId: Militar
@@ -228,7 +228,7 @@ export type Session = {
   militar: Militar;
 }
 
-export type SessionArray = Session[]; 
+export type SessionArray = Session[];
 
 export interface Feedback {
   id: string;
@@ -238,7 +238,7 @@ export interface Feedback {
   militarId: string;
 }
 
-export type FeedbackArray = Feedback[]; 
+export type FeedbackArray = Feedback[];
 
 export interface Missao {
   id?: string;
@@ -250,4 +250,42 @@ export interface Missao {
   militar_destino: string;
 }
 
-export type MissaoArray = Missao[]; 
+export type MissaoArray = Missao[];
+
+export type Viatura = {
+  id?: string;
+  eb: string;
+  tipo: string;
+  tipoTransporte: string;
+  situacao: "disponivel" | "indisponivel" | "cautelado"
+}
+
+export type PedidoViatura = {
+  id?: string
+  created_at?: DateTime
+  dataDesejada: DateTime
+  missao: string
+  intinerario: string
+  chefeViatura: string
+  motorista?: string
+  dataDevolucao: DateTime
+  apresentar: string
+  observacao?: string
+  status: "aguardando" | "autorizado" | "finalizado" | "recusado"
+  companhia: string
+  militarId: string
+  militar: Militar
+}
+
+export type CautelaViatura = {
+  id?: string
+  dataCautela: DateTime
+  dataEntrega: DateTime
+  motorista: string
+  observacao: string
+
+  status: "pendente" | "autorizado" | "finalizado" | "recusado"
+
+  viaturaId: string
+  pedidoViaturaId: string
+}

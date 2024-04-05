@@ -1,6 +1,7 @@
 import { FastifyInstance, FastifyRequest } from 'fastify';
 import { prisma } from "../lib/prisma"
 import bcrypt from 'bcrypt';
+import { generateNowISOTime } from '../utils/scripts';
 
 export type FuncaoMilitar = {
     id: string;
@@ -23,6 +24,9 @@ export async function funcaoRoutes(fastify: FastifyInstance) {
       const result = await prisma.funcao.findMany({
         include: {
           militar: true
+        },
+        where: {
+          status: 'ativo'
         }
       })
 
@@ -47,6 +51,26 @@ export async function funcaoRoutes(fastify: FastifyInstance) {
         return reply.status(500).send(error);
       }
     })
+
+    fastify.post('/funcao/update/:id/:status', async (request, reply) => {
+      const { id, status } = request.params as FuncaoMilitar
+      console.log({ id, status })
+      try {
+      const result = await prisma.funcao.update({
+         where: {
+          id
+         },
+         data:{
+          status,
+          data_termino: generateNowISOTime()
+         }
+      })
+
+      return reply.status(201).send(result)
+    } catch (error) {
+      return reply.status(500).send(error);
+    }
+  })
     
     fastify.post('/funcao/atribuir', async (request, reply) => {
         const { data_inicio, data_termino, militarId, funcao } = request.body as FuncaoMilitar

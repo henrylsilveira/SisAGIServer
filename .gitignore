@@ -4,7 +4,7 @@ dist
 /prisma/dev.db
 .env.local
 .env
-/src/public/imgAvatar
+/src/public/imgAvatar/**
 
 .gcloudignore
 app.yaml

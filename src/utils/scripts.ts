@@ -4,7 +4,7 @@ export function convertDate(iso: string | number | Date) {
     return convertDate
 }
 
-export function generateNowISOTime() {
+export function generateNowISOTime(): string {
     const time = new Date();
     return time.toISOString();
 }

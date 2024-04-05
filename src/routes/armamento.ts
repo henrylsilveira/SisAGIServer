@@ -70,7 +70,6 @@ export async function armamentoRoutes(fastify: FastifyInstance) {
   })
   fastify.post('/armamento/manutencao/create', async (request, reply) => {
     const { tipoManutencao, dataManutencao, armamentoId } = request.body as Manutencao
-    console.log(request.body)
     try {
       const result = await prisma.manutencao.create({
         data: {
@@ -97,7 +96,6 @@ export async function armamentoRoutes(fastify: FastifyInstance) {
 
   fastify.post('/armamento/vinculo/create', async (request, reply) => {
     const { armamentoId, militarId } = request.body as VinculoArmamentoMilitar
-    console.log(request.body)
     try {
       const result = await prisma.armamentoMilitar.create({
         data: {
