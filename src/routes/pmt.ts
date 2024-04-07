@@ -75,9 +75,24 @@ export async function pmtRoutes(fastify: FastifyInstance) {
       const result = await prisma.pedidoViatura.findMany({
         include: {
           _count: true,
+          militar: true,
           CautelaViatura: true
         }
       })
+      return reply.status(200).send(result)
+    })
+
+    fastify.put('/veiculos/pedidos/:id',
+    async (request, reply) => {
+      const { id } = request.params as PedidoViatura
+      const result = await prisma.pedidoViatura.update({
+        where: {
+          id
+        },
+        data: {
+          autorizado: true
+        },
+      });
       return reply.status(200).send(result)
     })
 

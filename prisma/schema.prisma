@@ -318,6 +318,7 @@ model PedidoViatura {
   observacao    String   @default("")
   status        String   @default("aguardando")
   companhia     String   @default("")
+  autorizado    Boolean  @default(false)
 
   militarIdPedido String @default("")
 

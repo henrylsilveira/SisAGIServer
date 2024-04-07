@@ -272,6 +272,7 @@ export type PedidoViatura = {
   apresentar: string
   observacao?: string
   status: "aguardando" | "autorizado" | "finalizado" | "recusado"
+  autorizado : boolean
   companhia: string
   militarId: string
   militar: Militar
