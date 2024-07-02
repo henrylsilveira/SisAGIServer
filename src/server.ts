@@ -67,7 +67,7 @@ async function bootstrap() {
   
   await fastify.listen({
     port: process.env.PORT ? Number(process.env.PORT) : 3333,
-    host: '0.0.0.0'
+    host: '0.0.0.0',
     // ("RENDER" in process.env) ? `0.0.0.0` : `localhost`
     // "3.134.238.10",
     //Retirar o host para executar o projeto localmente
