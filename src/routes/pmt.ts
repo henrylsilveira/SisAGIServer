@@ -169,14 +169,16 @@ export async function pmtRoutes(fastify: FastifyInstance) {
   
 
     fastify.post('/veiculo/pedido/create', async (request, reply) => {
-      const { apresentar, chefeViatura, dataDesejada, dataDevolucao, intinerario, missao, motorista, companhia, militarId } = request.body as PedidoViatura
+      const { apresentar, chefeViatura, dataDesejada, dataDevolucao, intinerario, missao, motorista, companhia, militarId, tipoViatura } = request.body as PedidoViatura
       try {
+        
         const result = await prisma.pedidoViatura.create({
           data: {
             companhia,
             militarIdPedido: militarId,
             apresentar,
             chefeViatura,
+            tipoViatura,
             dataDesejada,
             dataDevolucao,
             intinerario,

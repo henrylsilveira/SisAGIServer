@@ -266,6 +266,7 @@ export type PedidoViatura = {
   dataDesejada: DateTime
   missao: string
   intinerario: string
+  tipoViatura: string
   chefeViatura: string
   motorista?: string
   dataDevolucao: DateTime
