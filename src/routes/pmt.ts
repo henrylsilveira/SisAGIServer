@@ -171,7 +171,6 @@ export async function pmtRoutes(fastify: FastifyInstance) {
     fastify.post('/veiculo/pedido/create', async (request, reply) => {
       const { apresentar, chefeViatura, dataDesejada, dataDevolucao, intinerario, missao, motorista, companhia, militarId, tipoViatura } = request.body as PedidoViatura
       try {
-        
         const result = await prisma.pedidoViatura.create({
           data: {
             companhia,
@@ -206,7 +205,7 @@ export async function pmtRoutes(fastify: FastifyInstance) {
 
     fastify.post('/veiculo/cautela/create', async (request, reply) => {
       const { dataCautela, dataEntrega, viaturaId, pedidoViaturaId, motorista } = request.body as CautelaViatura
-      console.log(request.body)
+ 
       try {
         const result = await prisma.cautelaViatura.create({
           data: {
