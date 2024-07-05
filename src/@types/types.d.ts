@@ -53,6 +53,7 @@ export interface Civil {
   id: string;
   foto: string;
   fotoDoc: string;
+  categoria: "militar outra OM" | "civil" | "pensionista" | "reservista" | "militar inativo";
   nomeCompleto: string;
   dataNascimento: string;
   identidade?: string;

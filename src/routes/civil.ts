@@ -16,6 +16,7 @@ export async function civilRoutes(fastify: FastifyInstance) {
       nomeCompleto,
       identidade,
       dataNascimento,
+      categoria,
       cpf,
       nomePai,
       nomeMae,
@@ -38,6 +39,7 @@ export async function civilRoutes(fastify: FastifyInstance) {
           data: {
             nomeCompleto: nomeCompleto.toLowerCase(),
             identidade,
+            categoria,
             dataNascimento: convertDateInputToISODate(dataNascimento),
             cpf,
             nomeMae,
@@ -129,7 +131,6 @@ export async function civilRoutes(fastify: FastifyInstance) {
         ]
       }
     });
-    console.log(result)
     if (!result[0]) {
       try {
         const civil = await prisma.civil.create({
@@ -137,6 +138,7 @@ export async function civilRoutes(fastify: FastifyInstance) {
             nomeCompleto: nomeCompleto.toLowerCase(),
             dataNascimento: convertDateInputToISODate(dataNascimento),
             identidade,
+            categoria: "civil",
             cpf,
             nomeMae,
             nomePai,
