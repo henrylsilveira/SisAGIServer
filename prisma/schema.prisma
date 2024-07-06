@@ -79,6 +79,7 @@ model Civil {
   foto           String?
   fotoDoc        String?
   nomeCompleto   String
+  categoria      String
   identidade     String?          @unique
   cpf            String?          @unique
   nomePai        String?
