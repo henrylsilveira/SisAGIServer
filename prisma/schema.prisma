@@ -311,7 +311,6 @@ model PedidoViatura {
   dataDesejada  DateTime
   missao        String
   intinerario   String
-  tipoViatura   String   @default("")
   chefeViatura  String
   motorista     String?
   dataDevolucao DateTime

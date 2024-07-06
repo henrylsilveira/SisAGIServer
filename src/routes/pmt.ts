@@ -177,11 +177,10 @@ export async function pmtRoutes(fastify: FastifyInstance) {
             militarIdPedido: militarId,
             apresentar,
             chefeViatura,
-            tipoViatura,
             dataDesejada,
             dataDevolucao,
             intinerario,
-            missao,
+            missao: `${missao} - (${tipoViatura})`,
             motorista
           },
         });
