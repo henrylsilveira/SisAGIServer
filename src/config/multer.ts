@@ -37,10 +37,10 @@ const storageTypes = {
 };
 
 export const multerConfig = {
-  dest: path.resolve(__dirname, "..", "public", "imgAvatar"),
+  dest: path.resolve(__dirname,"public", "imgAvatar"),
   storage: multer.diskStorage({
     destination: (req, file, cb) => {
-      cb(null, path.resolve(__dirname,"..", "public", "imgAvatar"));
+      cb(null, path.resolve(__dirname,"public", "imgAvatar"));
     },
     filename: (req, file: any, cb) => {
       crypto.randomBytes(16, (err, hash) => {

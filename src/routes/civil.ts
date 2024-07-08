@@ -2,8 +2,8 @@ import { FastifyInstance, FastifyRequest } from "fastify";
 import { prisma } from "../lib/prisma";
 import multer from "fastify-multer";
 import { multerConfig } from "../config/multer";
-import { Civil } from "../@types/types";
-import { Dbq } from "@prisma/client";
+import { Civil, Dbq } from "../@types/types";
+
 import { convertDateInputToISODate } from "../utils/scripts";
 
 interface RequestProps extends FastifyRequest {
