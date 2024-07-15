@@ -303,7 +303,17 @@ model Viatura {
   tipoTransporte String
   situacao       String @default("disponivel")
 
-  CautelaViatura CautelaViatura[]
+  CautelaViatura    CautelaViatura[]
+  ManutencaoViatura ManutencaoViatura[]
+}
+
+model ManutencaoViatura {
+  id     String   @id @default(cuid())
+  data   DateTime @default(now())
+  motivo String
+
+  viatura   Viatura @relation(fields: [viaturaId], references: [id], onDelete: Cascade)
+  viaturaId String
 }
 
 model PedidoViatura {

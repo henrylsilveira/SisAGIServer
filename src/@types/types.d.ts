@@ -292,3 +292,10 @@ export type CautelaViatura = {
   viaturaId: string
   pedidoViaturaId: string
 }
+
+export type ManutencaoViatura = {
+  id: string
+  data: DateTime
+  motivo: string
+  viaturaId: string
+}

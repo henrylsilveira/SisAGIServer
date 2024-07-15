@@ -5,7 +5,7 @@ import { generateNowISOTime } from "../utils/scripts";
 export async function cmtGda(fastify: FastifyInstance) {
   fastify.post("/controleGuarda/registrar/entrada/militar", async (request, reply) => {
     const { militarId, militarServicoId, status } = request.body as any
-    
+
     try {
       if (status === "entrada") {
         const result = await prisma.controleGuarda.create({
@@ -34,7 +34,7 @@ export async function cmtGda(fastify: FastifyInstance) {
 
   fastify.post("/controleGuarda/registrar/entrada/civil", async (request, reply) => {
     const { civilId, militarServicoId, status } = request.body as any
-    
+
     try {
       if (status === "entrada") {
         const result = await prisma.controleGuarda.create({
@@ -73,10 +73,10 @@ export async function cmtGda(fastify: FastifyInstance) {
             entrada: generateNowISOTime(),
             status: "finalizado"
           }
-          
+
         })
         return reply.status(201).send(result)
-      }else if(status === "saida"){
+      } else if (status === "saida") {
         const result = await prisma.controleGuarda.update({
           where: {
             id
@@ -85,10 +85,10 @@ export async function cmtGda(fastify: FastifyInstance) {
             saida: generateNowISOTime(),
             status: "finalizado"
           }
-          
+
         })
         return reply.status(201).send(result)
-      }else {
+      } else {
         const result = await prisma.controleGuarda.update({
           where: {
             id
@@ -96,10 +96,30 @@ export async function cmtGda(fastify: FastifyInstance) {
           data: {
             status: "finalizado"
           }
-          
+
         })
         return reply.status(201).send(result)
       }
+    } catch (error) {
+      return reply.status(500).send(error);
+    }
+  })
+
+  fastify.put("/controleGuarda/update/:id", async (request, reply) => {
+    const { id } = request.params as any
+    const { destino } = request.body as any
+    try {
+      const result = await prisma.controleGuarda.update({
+        where: {
+          id
+        },
+        data: {
+          destino
+        }
+
+      })
+      return reply.status(201).send(result)
+
     } catch (error) {
       return reply.status(500).send(error);
     }
