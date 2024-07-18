@@ -9,7 +9,7 @@ export async function pmtRoutes(fastify: FastifyInstance) {
     async (request, reply) => {
       const result = await prisma.viatura.findMany({
         relationLoadStrategy: 'join',
-        include: {
+        select: {
           _count: true,
           CautelaViatura: true,
           ManutencaoViatura: true
