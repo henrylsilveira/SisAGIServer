@@ -11,8 +11,8 @@ export async function pmtRoutes(fastify: FastifyInstance) {
         relationLoadStrategy: 'join',
         select: {
           _count: true,
-          CautelaViatura: true,
-          ManutencaoViatura: true
+          CautelaViatura: true
+          
         }
       })
 
