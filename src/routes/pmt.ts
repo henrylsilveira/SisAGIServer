@@ -12,7 +12,7 @@ export async function pmtRoutes(fastify: FastifyInstance) {
           _count: true,
           CautelaViatura: true,
           ManutencaoViatura: {
-          select {
+          select: {
             data: true,
             motivo: true,
             viaturaId: true
