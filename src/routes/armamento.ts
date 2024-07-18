@@ -27,26 +27,80 @@ export type ManutencaoArray = Manutencao[]
 export type VinculoArmamentoMilitar = {
   id: string;
   armamentoId: string;
-  militarId:   string;
+  militarId: string;
 }
 
 export async function armamentoRoutes(fastify: FastifyInstance) {
 
-  fastify.get('/armamentos',
-  // {
-  //     onRequest: [authenticate],
-  //   },
-  async (request, reply) => {
-    const result = await prisma.armamento.findMany({
-      include: {
-        cautelaArmamento: true,
-        ArmamentoMilitar: true,
-        Manutencao: true
+  fastify.put("/armamento/dados", async (request, reply) => {
+    const { id, name, value } = request.body as { name: string, value: string, id: string }
+
+    try {
+      await prisma.armamento.update({
+        where: {
+          id
+        },
+        data: {
+          [name]: value
+        }
+      })
+      return reply.status(201).send("Alterado com sucesso")
+    } catch (error) {
+      return reply.status(500).send(error)
+    }
+
+  })
+
+  fastify.get('/armamentos/:companhia',
+    async (request, reply) => {
+      const { companhia } = request.params as Armamento
+
+      try {
+        const result = await prisma.armamento.findMany({
+          where: {
+            companhia
+          },
+          include: {
+            cautelaArmamento: true,
+            ArmamentoMilitar: true,
+            Manutencao: true
+          }
+        })
+        return reply.status(200).send(result)
+      } catch (error) {
+        return reply.status(500).send(error)
       }
     })
 
-    return reply.status(200).send(result)
-  })
+  fastify.get('/armamentos',
+    async (request, reply) => {
+      try {
+        const result = await prisma.armamento.findMany({
+          include: {
+            cautelaArmamento: true,
+            ArmamentoMilitar: true,
+            Manutencao: true
+          }
+        })
+        return reply.status(200).send(result)
+      } catch (error) {
+        return reply.status(500).send(error)
+      }
+    })
+
+  fastify.get('/armamentos/nomes',
+    async (request, reply) => {
+      try {
+        const result = await prisma.armamento.findMany({
+          select: {
+            nome: true
+          }
+        })
+        return reply.status(200).send(result)
+      } catch (error) {
+        reply.status(500).send(error)
+      }
+    })
 
   fastify.post('/armamento/create', async (request, reply) => {
     const { nome, nr_serie, tipo, emprego, cabide, companhia, condicoes, status } = request.body as Armamento
@@ -122,9 +176,9 @@ export async function armamentoRoutes(fastify: FastifyInstance) {
 
   fastify.get('/armamentos/viculados/:id', async (request, reply) => {
     const { id } = request.params as VinculoArmamentoMilitar
-    
+
     const result = await prisma.armamentoMilitar.findMany({
-      where:{
+      where: {
         militarId: id
       },
       include: {
