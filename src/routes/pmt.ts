@@ -10,7 +10,13 @@ export async function pmtRoutes(fastify: FastifyInstance) {
       const result = await prisma.viatura.findMany({
         include: {
           _count: true,
-          CautelaViatura: true
+          CautelaViatura: true,
+          ManutencaoViatura: {
+          select {
+            data: true,
+            motivo: true,
+            viaturaId: true
+          }
           }
         }
       })
