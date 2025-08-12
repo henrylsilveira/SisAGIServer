@@ -140,4 +140,23 @@ export async function cmtGda(fastify: FastifyInstance) {
       return reply.status(500).send(error);
     }
   })
+  fastify.get("/controGuarda/registros/:status", async (request, reply) => {
+    const { status } = request.params as {status: "ativo" | "finalizado"}
+    try {
+      const result = await prisma.controleGuarda.findMany({
+        where: {
+          status
+        },
+        include: {
+          civil: true,
+          militar: true,
+          militarServico: true
+        }
+      })
+
+      return reply.status(200).send(result)
+    } catch (error) {
+      return reply.status(500).send(error);
+    }
+  })
 }
