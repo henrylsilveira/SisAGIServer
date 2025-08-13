@@ -1,0 +1,16 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: bitnami/postgresql:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=ce5e75ce32dd96d8954591ce020e97a1
+      - POSTGRES_USER=sisagi
+      - POSTGRES_DB=sisagi
+    volumes:
+      - sisagi_pg_data:/bitnami/postgresql
+
+volumes:
+  sisagi_pg_data:

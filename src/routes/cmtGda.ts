@@ -147,6 +147,9 @@ export async function cmtGda(fastify: FastifyInstance) {
         where: {
           status
         },
+        orderBy: {
+          entrada: "desc"
+        },
         include: {
           civil: true,
           militar: true,
