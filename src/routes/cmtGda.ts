@@ -177,4 +177,26 @@ export async function cmtGda(fastify: FastifyInstance) {
       return reply.status(500).send(error);
     }
   })
+  fastify.get("/controGuarda/registros/relatorio/:start/:end", async (request, reply) => {
+    const { start, end } = request.params as {start: string; end: string}
+    // #TODO: TALVEZ TENHA QUE CORRIGIR O TIPO DA TABELA PARA NUMBER E NAO DATETIME
+    try {
+      const result = await prisma.controleGuarda.findMany({
+        where: {
+          entrada: {
+            gte: start
+          },
+          AND:{
+            saida:{
+              lte: end
+            }
+          }
+        }
+      })
+
+      return reply.status(200).send(result)
+    } catch (error) {
+      return reply.status(500).send(error);
+    }
+  })
 }
