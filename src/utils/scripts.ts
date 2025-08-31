@@ -9,6 +9,11 @@ export function generateNowISOTime(): string {
     return time.toISOString();
 }
 
+export function generateDateNowMilliseconds(): number {
+    const time = new Date();
+    return time.getTime();
+}
+
 export function convertDateInputToISODate(iso: string) {
     let isoDate = new Date(iso).toISOString();
   return isoDate;

@@ -140,4 +140,22 @@ export async function militarRoutes(fastify: FastifyInstance) {
             return reply.status(500).send(error);
           }
     })
+
+    fastify.patch('/militar/:id', async (request, reply) => {
+      const { id } = request.params as Militar
+      const { senha } = request.body as Militar
+      console.table(senha)
+      try {
+        const result = await prisma.militar.update({
+          where: { id },
+          data: {
+            senha: String(await bcrypt.hash(senha, 10))
+          }
+        })
+
+        return reply.status(201).send(result)
+      } catch (error) {
+        return reply.status(500).send(error);
+      }
+    })
 }

@@ -269,8 +269,8 @@ model Missao {
 
 model ControleGuarda {
   id      String    @id @default(cuid())
-  entrada DateTime?
-  saida   DateTime?
+  entrada DateTime? @db.Timestamptz(3)
+  saida   DateTime? @db.Timestamptz(3)
   destino String?
 
   status String? @default("ativo")

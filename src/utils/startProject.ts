@@ -23,7 +23,7 @@ async function createAdminUser(){
           post_grad: "CEL",
           identidade: "0000000000",
           senha: String(await bcrypt.hash(senha, 10)),
-          companhia: "EM",
+          companhia: "ADMIN",
           pelotao: "SEC CMDO",
         },
       });

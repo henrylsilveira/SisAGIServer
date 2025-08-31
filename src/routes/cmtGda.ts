@@ -1,129 +1,133 @@
 import { FastifyInstance } from "fastify";
 import { prisma } from "../lib/prisma";
-import { generateNowISOTime } from "../utils/scripts";
+import {
+  convertDateInputToISODate,
+  generateNowISOTime,
+} from "../utils/scripts";
 
 export async function cmtGda(fastify: FastifyInstance) {
-  fastify.post("/controleGuarda/registrar/entrada/militar", async (request, reply) => {
-    const { militarId, militarServicoId, status } = request.body as any
+  fastify.post(
+    "/controleGuarda/registrar/entrada/militar",
+    async (request, reply) => {
+      const { militarId, militarServicoId, status } = request.body as any;
 
-    try {
-      if (status === "entrada") {
-        const result = await prisma.controleGuarda.create({
-          data: {
-            entrada: generateNowISOTime(),
-            militarServicoId,
-            militarId,
-            status: "ativo"
-          }
-        })
-        return reply.status(201).send(result)
-      } else {
-        const result = await prisma.controleGuarda.create({
-          data: {
-            saida: generateNowISOTime(),
-            militarServicoId,
-            militarId,
-          }
-        })
-        return reply.status(201).send(result)
+      try {
+        if (status === "entrada") {
+          const result = await prisma.controleGuarda.create({
+            data: {
+              entrada: generateNowISOTime(),
+              militarServicoId,
+              militarId,
+              status: "ativo",
+            },
+          });
+          return reply.status(201).send(result);
+        } else {
+          const result = await prisma.controleGuarda.create({
+            data: {
+              saida: generateNowISOTime(),
+              militarServicoId,
+              militarId,
+            },
+          });
+          return reply.status(201).send(result);
+        }
+      } catch (error) {
+        return reply.status(500).send(error);
       }
-    } catch (error) {
-      return reply.status(500).send(error);
     }
-  })
+  );
 
-  fastify.post("/controleGuarda/registrar/entrada/civil", async (request, reply) => {
-    const { civilId, militarServicoId, status } = request.body as any
+  fastify.post(
+    "/controleGuarda/registrar/entrada/civil",
+    async (request, reply) => {
+      const { civilId, militarServicoId, status } = request.body as any;
 
-    try {
-      if (status === "entrada") {
-        const result = await prisma.controleGuarda.create({
-          data: {
-            entrada: generateNowISOTime(),
-            militarServicoId,
-            civilId,
-            status: "ativo"
-          }
-        })
-        return reply.status(201).send(result)
-      } else {
-        const result = await prisma.controleGuarda.create({
-          data: {
-            saida: generateNowISOTime(),
-            militarServicoId,
-            civilId,
-          }
-        })
-        return reply.status(201).send(result)
+      try {
+        if (status === "entrada") {
+          const result = await prisma.controleGuarda.create({
+            data: {
+              entrada: generateNowISOTime(),
+              militarServicoId,
+              civilId,
+              status: "ativo",
+            },
+          });
+          return reply.status(201).send(result);
+        } else {
+          const result = await prisma.controleGuarda.create({
+            data: {
+              saida: generateNowISOTime(),
+              militarServicoId,
+              civilId,
+            },
+          });
+          return reply.status(201).send(result);
+        }
+      } catch (error) {
+        return reply.status(500).send(error);
       }
-    } catch (error) {
-      return reply.status(500).send(error);
     }
-  })
+  );
 
   fastify.put("/controleGuarda/update/:id/:status", async (request, reply) => {
-    const { id, status } = request.params as any
+    const { id, status } = request.params as any;
     try {
       if (status === "entrada") {
         const result = await prisma.controleGuarda.update({
           where: {
-            id
+            id,
           },
           data: {
             entrada: generateNowISOTime(),
-            status: "finalizado"
-          }
-
-        })
-        return reply.status(201).send(result)
+            status: "finalizado",
+          },
+        });
+        return reply.status(201).send(result);
       } else if (status === "saida") {
         const result = await prisma.controleGuarda.update({
           where: {
-            id
+            id,
           },
           data: {
             saida: generateNowISOTime(),
-            status: "finalizado"
-          }
-
-        })
-        return reply.status(201).send(result)
+            status: "finalizado",
+          },
+        });
+        return reply.status(201).send(result);
       } else {
         const result = await prisma.controleGuarda.update({
           where: {
-            id
+            id,
           },
           data: {
-            status: "finalizado"
-          }
-
-        })
-        return reply.status(201).send(result)
+            status: "finalizado",
+          },
+        });
+        return reply.status(201).send(result);
       }
     } catch (error) {
       return reply.status(500).send(error);
     }
-  })
+  });
 
   fastify.put("/controleGuarda/update/:id", async (request, reply) => {
-    const { id } = request.params as any
-    const { destino } = request.body as any
+    const { id } = request.params as any;
+    const { destino } = request.body as any;
     try {
       const result = await prisma.controleGuarda.update({
         where: {
-          id
+          id,
         },
         data: {
-          destino
-        }
-
-      })
-      return reply.status(201).send(result)
-
+          destino,
+        },
+      });
+      return reply.status(201).send(result);
     } catch (error) {
       return reply.status(500).send(error);
     }
-  })
+  });
 
   fastify.get("/controGuarda/registros", async (request, reply) => {
     try {
@@ -131,72 +135,72 @@ export async function cmtGda(fastify: FastifyInstance) {
         include: {
           civil: true,
           militar: true,
-          militarServico: true
-        }
-      })
-
-      return reply.status(200).send(result)
+          militarServico: true,
+        },
+      });
+      return reply.status(200).send(result);
     } catch (error) {
       return reply.status(500).send(error);
     }
-  })
+  });
   fastify.get("/controGuarda/registros/:status", async (request, reply) => {
-    const { status } = request.params as {status: "ativo" | "finalizado"}
+    const { status } = request.params as { status: "ativo" | "finalizado" };
     try {
       const result = await prisma.controleGuarda.findMany({
         where: {
-          status
+          status,
         },
         orderBy: {
-          entrada: "desc"
+          entrada: "desc",
         },
         include: {
           civil: true,
           militar: true,
-          militarServico: true
-        }
-      })
+          militarServico: true,
+        },
+      });
 
-      return reply.status(200).send(result)
+      return reply.status(200).send(result);
     } catch (error) {
       return reply.status(500).send(error);
     }
-  })
+  });
   fastify.get("/controGuarda/registros/:id/militar", async (request, reply) => {
-    const { id } = request.params as {id: string}
+    const { id } = request.params as { id: string };
     try {
       const result = await prisma.controleGuarda.findMany({
         where: {
           militarId: id,
-          status: "ativo"
-        }
-      })
+          status: "ativo",
+        },
+      });
 
-      return reply.status(200).send(result)
+      return reply.status(200).send(result);
     } catch (error) {
       return reply.status(500).send(error);
     }
-  })
-  fastify.get("/controGuarda/registros/relatorio/:start/:end", async (request, reply) => {
-    const { start, end } = request.params as {start: string; end: string}
-    // #TODO: TALVEZ TENHA QUE CORRIGIR O TIPO DA TABELA PARA NUMBER E NAO DATETIME
-    try {
-      const result = await prisma.controleGuarda.findMany({
-        where: {
-          entrada: {
-            gte: start
-          },
-          AND:{
-            saida:{
-              lte: end
+  });
+  fastify.get(
+    "/controGuarda/registros/relatorio/:start/:end",
+    async (request, reply) => {
+      const { start, end } = request.params as { start: string; end: string };
+      try {
+        const result = await prisma.controleGuarda.findMany({
+          where: {
+            entrada: {
+              gte: new Date(Number(start)).toISOString(),
+              lte: new Date(Number(end)).toISOString(),
             }
+          },
+          include: {
+            militar: true,
           }
-        }
-      })
-
-      return reply.status(200).send(result)
-    } catch (error) {
-      return reply.status(500).send(error);
+        });
+        console.table(result);
+        return reply.status(200).send(result);
+      } catch (error) {
+        return reply.status(500).send(error);
+      }
     }
-  })
+  );
 }

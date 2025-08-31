@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "ControleGuarda" ALTER COLUMN "entrada" SET DATA TYPE BIGINT,
+ALTER COLUMN "saida" SET DATA TYPE BIGINT;
